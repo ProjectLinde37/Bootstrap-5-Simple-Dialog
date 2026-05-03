@@ -12,6 +12,19 @@ Built on top of **Bootstrap 5** (JS + CSS).
 ✅ Production-first  
 
 ---
+## Demo
+
+Live demo van de Goosse Dialog component:
+
+👉 [Bekijk de Goosse Dialog demo](https://projectlinde37.github.io/Bootstrap-5-Simple-Dialog/)
+
+De demo toont:
+- Alle dialog‑types (`info`, `warning`, `danger`, `success`)
+- Bevestigen en annuleren
+- Singleton‑gedrag (slechts één dialog tegelijk)
+- Bootstrap‑native modal werking
+  ``
+---
 
 ## 📁 Location
 
