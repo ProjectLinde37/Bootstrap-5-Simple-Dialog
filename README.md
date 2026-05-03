@@ -1,101 +1,93 @@
 # Goosse Dialog Module
 
-Herbruikbare JavaScript‑module voor **dialogen en popups**.  
-Gebouwd bovenop **Bootstrap 5** (JS + CSS).
+Reusable JavaScript module for **dialogs and popups**.  
+Built on top of **Bootstrap 5** (JS + CSS).
 
-✅ Geen vaste HTML in layouts  
-✅ On‑demand DOM injectie  
-✅ Zelfopruimend  
-✅ Slechts **één actieve dialog tegelijk** (singleton‑guard)
-✅ Configureerbare iconen (Tabler, Bootstrap, SVG, etc.)
-✅ MVC‑conform  
+✅ No static HTML in layouts  
+✅ On‑demand DOM injection  
+✅ Self‑cleaning  
+✅ Only **one active dialog at a time** (singleton guard)  
+✅ Configurable icons (Tabler, Bootstrap, SVG, etc.)  
+✅ MVC‑compliant  
 ✅ Production‑first  
 
 ---
 
-## 📁 Locatie
-
+## 📁 Location
 
 ```text
 public/goosse/dialog/
 ├── dialog.js
 ├── dialog.css
 └── README.md
-
-
-```
-
-Deze module hoort bewust in `public/`:
-- het is **client‑side UI‑gedrag**
-- geen businesslogica
-- geen server‑state
-
----
-
-## 🔧 Vereisten
-
-- **Bootstrap 5.3.x (JS + CSS)**  
-- Moderne browser
-
-> ⚠️ **Tabler JS wordt NIET gebruikt**  
-> Bootstrap JS wordt expliciet geladen om `bootstrap.Modal` beschikbaar te hebben.
-
----
-
-## 📦 Installatie
-
-### 1️⃣ Bestanden plaatsen
-
-```
-
-public/goosse/dialog/dialog.js
-public/goosse/dialog/dialog.css
-
 ````
 
-### 2️⃣ Scripts laden in layout (1×)
+This module intentionally lives in `public/`:
 
-Bijvoorbeeld in `Views/layouts/admin.php`:
+*   it is **client‑side UI behaviour**
+*   no business logic
+*   no server state
 
-```html
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="public/goosse/dialog/dialog.js" defer></script>
-<link rel="stylesheet" href="public/goosse/dialog/dialog.css">
+***
+
+## 🔧 Requirements
+
+*   **Bootstrap 5.3.x (JS + CSS)**
+*   Modern browser
+
+> ⚠️ **Tabler JS is NOT used**\
+> Bootstrap JS is explicitly loaded to provide `bootstrap.Modal`.
+
+***
+
+## 📦 Installation
+
+### 1️⃣ Place the files
+
+```text
+public/goosse/dialog/dialog.js
+public/goosse/dialog/dialog.css
 ```
 
-✅ Bootstrap JS = enige JS‑framework\
-✅ Geen Tabler JS\
-✅ Geen dubbele initialisatie
+### 2️⃣ Load scripts in your layout (once)
+
+For example in `Views/layouts/admin.php`:
+
+
+
+✅ Bootstrap JS is the only JS framework\
+✅ No Tabler JS\
+✅ No double initialisation
 
 ***
 
-## 🎯 Dialog types (belangrijk)
+## 🎯 Dialog Types (important)
 
-De dialog ondersteunt **vier semantische types**.\
-`type` bepaalt **icoon, kleur en standaardknop**.
+The dialog supports **four semantic types**.\
+`type` determines the **icon, colour and default button**.
 
-| type      | Betekenis         | Gebruik                  |
-| --------- | ----------------- | ------------------------ |
-| `info`    | Informatie        | Status, uitleg           |
-| `warning` | Bevestiging nodig | Logout, niet‑destructief |
-| `danger`  | Destructief       | Delete, reset            |
-| `success` | Succesmelding     | Actie geslaagd           |
+| type      | Meaning             | Typical use             |
+| --------- | ------------------- | ----------------------- |
+| `info`    | Information         | Status, explanation     |
+| `warning` | Confirmation needed | Logout, non‑destructive |
+| `danger`  | Destructive         | Delete, reset           |
+| `success` | Success feedback    | Action completed        |
 
-### ✅ Standaard
+### ✅ Default
 
-Als `type` niet wordt meegegeven, gebruikt de dialog:
+If `type` is not provided, the dialog uses:
 
-    type = 'warning'
+```js
+type = 'warning'
+```
 
-Dat is bewust: een bevestiging is **niet automatisch destructief**.
+This is intentional: a confirmation is **not automatically destructive**.
 
 ***
 
-## 🚀 Gebruik
+## 🚀 Usage
 
 ### ✅ Logout (correct: `warning`)
-
-
 
 ```js
 document.addEventListener('click', function (e) {
@@ -106,8 +98,8 @@ document.addEventListener('click', function (e) {
 
   goosseDialog.confirm({
     type: 'warning',
-    title: 'Uitloggen',
-    message: el.dataset.confirm || 'Ben je zeker dat je wil uitloggen?',
+    title: 'Logout',
+    message: el.dataset.confirm || 'Are you sure you want to log out?',
     onConfirm: () => {
       window.location.href = el.href;
     }
@@ -115,28 +107,28 @@ document.addEventListener('click', function (e) {
 });
 ```
 
-➡️ ⚠️ geel icoon\
-➡️ gele bevestigingsknop\
-➡️ duidelijke “opletten”-boodschap
+➡️ ⚠️ yellow icon\
+➡️ yellow confirmation button\
+➡️ clear “be careful” message
 
 ***
 
-### ✅ Destructieve actie (correct: `danger`)
+### ✅ Destructive action (correct: `danger`)
 
 ```js
 goosseDialog.confirm({
   type: 'danger',
-  title: 'Gebruiker verwijderen',
-  message: 'Deze actie kan niet ongedaan worden gemaakt.',
+  title: 'Delete user',
+  message: 'This action cannot be undone.',
   onConfirm: () => {
     window.location.href = 'admin/users/delete/42';
   }
 });
 ```
 
-➡️ 🔴 rood icoon\
-➡️ rode bevestigingsknop\
-➡️ zware waarschuwing
+➡️ 🔴 red icon\
+➡️ red confirmation button\
+➡️ strong warning
 
 ***
 
@@ -145,14 +137,14 @@ goosseDialog.confirm({
 ```js
 goosseDialog.confirm({
   type: 'info',
-  title: 'Informatie',
-  message: 'Je wijzigingen zijn opgeslagen.'
+  title: 'Information',
+  message: 'Your changes have been saved.'
 });
 ```
 
-➡️ ℹ️ blauw icoon\
-➡️ OK‑knop\
-➡️ geen stress
+➡️ ℹ️ blue icon\
+➡️ OK button\
+➡️ no stress
 
 ***
 
@@ -161,113 +153,103 @@ goosseDialog.confirm({
 ```js
 goosseDialog.confirm({
   type: 'success',
-  title: 'Gelukt',
-  message: 'De actie werd succesvol uitgevoerd.'
+  title: 'Success',
+  message: 'The action was completed successfully.'
 });
 ```
 
 ***
 
-## 🧠 Opties
+## 🧠 Options
 
-| Optie         | Type      | Standaard       | Beschrijving |
-| ------------- | --------- | --------------- | ----------- |
-| `type`        | string    | `'warning'`      | `info`, `success`, `warning`, `danger` |
-| `title`       | string    | `'Bevestigen'`   | Titel van de dialog |
-| `message`     | string    | `'Weet je het zeker?'` | Berichttekst |
-| `icon`        | string    | `null`          | Custom icon HTML (override type icon) |
-| `confirmText` | string    | `type-afhankelijk` | Tekst op bevestigingsknop |
-| `cancelText`  | string    | `'Annuleren'`    | Tekst op annuleerknop (leeg = geen knop) |
-| `confirmClass`| string    | `type-afhankelijk` | Bootstrap class voor bevestigingsknop |
-| `onConfirm`   | function  | `null`          | Callback bij bevestiging (ondersteunt Promises) |
+| Option         | Type     | Default           | Description                             |
+| -------------- | -------- | ----------------- | --------------------------------------- |
+| `type`         | string   | `'warning'`       | `info`, `success`, `warning`, `danger`  |
+| `title`        | string   | `'Confirm'`       | Dialog title                            |
+| `message`      | string   | `'Are you sure?'` | Message text                            |
+| `icon`         | string   | `null`            | Custom icon HTML (overrides type icon)  |
+| `confirmText`  | string   | type‑dependent    | Confirmation button text                |
+| `cancelText`   | string   | `'Cancel'`        | Cancel button text (empty = no button)  |
+| `confirmClass` | string   | type‑dependent    | Bootstrap class for confirm button      |
+| `onConfirm`    | function | `null`            | Callback on confirm (supports Promises) |
 
-## 🧠 Configuratie (Iconen & Feedback)
+***
 
-Je kunt de iconen en feedbackberichten globaal configureren via het `config` object in een `<script>` tag in je HTML (bijv. in je footer of layout).
+## 🧠 Configuration (Icons & Feedback)
 
-```html
-<script>
-  // Voorbeeld: Overschakelen naar Bootstrap Icons
-  goosseDialog.config.icons = {
-    info: '<i class="bi bi-info-circle text-primary"></i>',
-    warning: '<i class="bi bi-exclamation-triangle text-warning"></i>',
-    danger: '<i class="bi bi-exclamation-octagon text-danger"></i>',
-    success: '<i class="bi bi-check-circle text-success"></i>'
-  };
+Icons and feedback messages can be configured globally via the `config` object in a `<script>` tag in your HTML (e.g. footer or layout).
 
-  // Pas het waarschuwingsbericht aan voor dubbele aanroepen
-  goosseDialog.config.duplicateWarning = 'Er is al een dialoog actief.';
-</script>
-```
 
-Standaard worden **Tabler Icons** gebruikt.
 
----
+By default, **Tabler Icons** are used.
+
+***
 
 ## 🚀 API Methods
 
 ### ✅ `goosseDialog.confirm(options)`
 
-Toont een dialog met bevestiging en annuleer opties.
+Displays a dialog with confirm and cancel actions.
 
 ```js
 goosseDialog.confirm({
   type: 'danger',
-  title: 'Verwijderen',
-  message: 'Deze actie kan niet ongedaan worden gemaakt.',
-  onConfirm: () => { /* actie uitvoeren */ }
+  title: 'Delete',
+  message: 'This action cannot be undone.',
+  onConfirm: () => { /* perform action */ }
 });
 ```
 
+***
+
 ### ✅ `goosseDialog.alert(options)`
 
-Toont een simpele popup met alleen OK knop.
+Displays a simple popup with only an OK button.
 
 ```js
 goosseDialog.alert({
   title: 'Info',
-  message: 'Je wijzigingen zijn opgeslagen.'
+  message: 'Your changes have been saved.'
 });
 ```
 
-**Intern:** `alert` gebruikt `confirm` met:
-- `type: 'info'`
-- `confirmText: 'OK'`
-- `cancelText: ''` (geen annuleerknop)
+**Internally:** `alert` uses `confirm` with:
+
+*   `type: 'info'`
+*   `confirmText: 'OK'`
+*   `cancelText: ''` (no cancel button)
 
 ***
 
-## 🧠 `data-confirm` en `dataset`
+## 🧠 `data-confirm` and `dataset`
 
-De dialog‑tekst komt meestal uit HTML:
+Dialog text often comes from HTML:
 
-```html
-<a href="logout" class="js-confirm-logout" data-confirm="Ben je zeker dat je wil uitloggen?">Uitloggen</a>
-```
 
-In JS:
+
+In JavaScript:
 
 ```js
 el.dataset.confirm
 ```
 
-➡️ `data-confirm` → `dataset.confirm`  
-➡️ HTML wint van JS fallback  
-➡️ Volledig native browser‑API
+➡️ `data-confirm` → `dataset.confirm`\
+➡️ HTML overrides JS fallback\
+➡️ Fully native browser API
 
 ***
 
-## 🎨 Icon‑ondersteuning
+## 🎨 Icon Support
 
-De `icon`‑optie accepteert **elke geldige HTML**.
+The `icon` option accepts **any valid HTML**.
 
-### ✅ Ondersteund
+### ✅ Supported
 
 *   Tabler Icons webfont (`<i class="ti …">`)
 *   Inline SVG
 *   SVG / PNG / JPG via `<img>`
 
-### Voorbeelden
+### Examples
 
 ```js
 icon: '<i class="ti ti-alert-triangle text-warning"></i>'
@@ -279,9 +261,9 @@ icon: 'public/icons/warning.svg'
 
 ***
 
-## 🎨 Styling (dialog.css)
+## 🎨 Styling (`dialog.css`)
 
-### Icon & tekst uitlijning
+### Icon & text alignment
 
 ```css
 .goosse-dialog-icon {
@@ -300,63 +282,51 @@ icon: 'public/icons/warning.svg'
 
 ## 🔒 Security & Accessibility
 
-*   ✅ Bootstrap regelt ARIA & focus‑trap
-*   ✅ Ingebouwde HTML-escaping (XSS-beveiliging) voor titels, berichten en knopteksten
-*   ✅ Geen inline `eval`
-*   ✅ Dialog = UX, **geen security**
-*   ✅ Server‑side validatie & CSRF blijven verplicht
+*   ✅ Bootstrap handles ARIA & focus‑trap
+*   ✅ Built‑in HTML escaping (XSS protection) for titles, messages and button text
+*   ✅ No inline `eval`
+*   ✅ Dialogs are UX, **not security**
+*   ✅ Server‑side validation & CSRF protection remain mandatory
 
 ***
 
-## ❌ Wat deze module bewust NIET doet
+## ❌ What this module deliberately does NOT do
 
-*   ❌ geen AJAX
-*   ❌ geen POST‑requests
-*   ❌ geen businesslogica
-*   ❌ geen vaste HTML
-*   ❌ geen Tabler JS afhankelijkheid
-
-***
-
-## Singleton‑gedrag (belangrijk)
-
-*   De component staat **slechts één actieve dialog tegelijk toe**
-*   Extra `confirm()` of `alert()` calls worden genegeerd zolang er een venster openstaat
-*   Wanneer er al een venster openstaat, wordt er een feedback-melding getoond via `goosseToast` (of via een standaard `alert` als de toast-module niet geladen is)
-*   Na sluiten wordt de instance netjes opgeruimd
-
-➡️ Voorkomt gestapelde modals en UX‑verwarring
+*   ❌ no AJAX
+*   ❌ no POST requests
+*   ❌ no business logic
+*   ❌ no static HTML
+*   ❌ no Tabler JS dependency
 
 ***
 
-## ✅ Architecturale keuzes
+## Singleton Behaviour (important)
 
-*   **Tabler = CSS‑theme**
-*   **Bootstrap = JS‑gedrag**
-*   **Goosse Dialog = herbruikbare UI‑module**
-*   Type = intentie, niet alleen kleur
+*   The component allows **only one active dialog at a time**
+*   Additional `confirm()` or `alert()` calls are ignored while a dialog is open
+*   If a dialog is already active, feedback is shown via `goosseToast`
+    (or a native `alert` if the toast module is not loaded)
+*   After closing, the instance is properly cleaned up
+
+➡️ Prevents stacked modals and UX confusion
 
 ***
 
-## ✅ Samenvatting
+## ✅ Architectural Decisions
 
-*   ✅ `warning` is standaard (bevestiging)
-*   ✅ `danger` is expliciet destructief
-*   ✅ `info` en `success` zijn informatief
-*   ✅ Minder overrides nodig
-*   ✅ Consistente UX
+*   **Tabler = CSS theme**
+*   **Bootstrap = JS behaviour**
+*   **Goosse Dialog = reusable UI module**
+*   Type expresses intent, not just colour
+
+***
+
+## ✅ Summary
+
+*   ✅ `warning` is the default (confirmation)
+*   ✅ `danger` is explicitly destructive
+*   ✅ `info` and `success` are informational
+*   ✅ Fewer overrides needed
+*   ✅ Consistent UX
 *   ✅ Production‑proof
 
-**Gebruik dit als standaard voor alle dialogs binnen NPZ.**
-
-```
-
----
-
-Als je wil, kan ik als volgende stap:
-- `warning` automatisch **Annuleren verplicht maken**
-- `danger` een extra checkbox (“Ik begrijp dit”) geven
-- of keyboard‑gedrag per type verfijnen (Enter/Esc)
-
-Maar documentatie en semantiek zijn nu **volledig correct en afgerond ✅**
-```
