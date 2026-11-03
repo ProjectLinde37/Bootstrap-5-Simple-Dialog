@@ -185,7 +185,11 @@
        Publieke API
        ========================== */
 
+    const VERSION = '1.0';
+
     window.goosseDialog = {
+
+        version: VERSION,
 
         config: CONFIG,
 

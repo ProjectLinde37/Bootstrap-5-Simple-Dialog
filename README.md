@@ -1,5 +1,7 @@
 # Goosse Dialog Module
 
+**Version 1.0** — see [CHANGELOG.md](CHANGELOG.md)
+
 Reusable JavaScript module for **dialogs and popups**.  
 Built on top of **Bootstrap 5** (JS + CSS).
 
