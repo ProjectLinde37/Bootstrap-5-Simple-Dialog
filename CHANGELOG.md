@@ -2,6 +2,16 @@
 
 All notable changes to Goosse Dialog are documented here.
 
+## [1.1] – 2026-11-03
+
+### Added
+
+- **String shorthand** — `goosseDialog.confirm('message')` and `goosseDialog.alert('message')` are normalized to `{ message }`
+
+### Changed
+
+- **Unknown `type` falls back to `warning`** instead of the destructive `danger` styling (a typo no longer looks like a delete action)
+
 ## [1.0] – 2026-11-03
 
 ### Added

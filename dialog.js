@@ -46,6 +46,11 @@
 
     function createDialog(options)
     {
+        // string = kort voor { message: '…' }
+        if (typeof options === 'string') {
+            options = { message: options };
+        }
+
         // ✅ Singleton guard: slechts 1 dialog tegelijk
         if (activeInstance) {
             if (window.goosseToast) {
@@ -72,7 +77,8 @@
             onConfirm = null
         } = options || {};
 
-        const typeConfig = TYPE_CONFIG[type] || TYPE_CONFIG.danger;
+        // onbekend type valt terug op warning, niet op destructief danger
+        const typeConfig = TYPE_CONFIG[type] || TYPE_CONFIG.warning;
         const modalId = 'goosse-dialog-' + (crypto.randomUUID?.() || Date.now());
 
         const finalIcon = icon !== null ? icon : (CONFIG.icons[type] || CONFIG.icons.warning);
@@ -185,7 +191,7 @@
        Publieke API
        ========================== */
 
-    const VERSION = '1.0';
+    const VERSION = '1.1';
 
     window.goosseDialog = {
 
